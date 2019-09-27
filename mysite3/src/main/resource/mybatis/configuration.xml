@@ -7,11 +7,13 @@
 		<typeAlias type="kr.co.itcen.mysite.vo.UserVo" alias="uservo" />
 		<typeAlias type="kr.co.itcen.mysite.vo.GuestBookVo" alias="guestbookvo" />
 		<typeAlias type="kr.co.itcen.mysite.vo.BoardVo" alias="boardvo" />
+		<typeAlias type="kr.co.itcen.mysite.vo.ReplyVo" alias="replyvo" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/guestbook.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
+		<mapper resource="mybatis/mappers/reply.xml" />
 	</mappers>
 </configuration>

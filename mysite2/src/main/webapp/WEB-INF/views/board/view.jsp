@@ -52,11 +52,10 @@
 				<h3 class="reply_tlt">댓글</h3>
 					<table class="reply" cellspacing="0">
 					<c:if test="${viewVo.userNo==authUser.no}">
-						<form name="reply" method="post" action="${path}/board">
+						<form name="reply" method="post" action="${path}/board/reply">
 						<tr>							
 							<td align="center">
 								${authUser.name }
-								<input type="hidden" name="a" value="reply">
 								<input type="hidden" name="userNo" value="${authUser.no }">
 								<input type="hidden" name="boardNo" value="${param.no }">	
 								<input type="hidden" name="keyWord" value="${param.kwd}">

@@ -54,104 +54,29 @@ public class BoardDao {
 		return sqlSession.selectList("board.getList", map);		
 	}
 	
-	public void updateOderNo(int gNo, int oNo) {
-		Connection connection = null;		
-		PreparedStatement pstmt = null;
-		try {
-			connection = getConnection();
-
-			String sql = "update board set o_no=o_no+1 where g_no = ? and o_no >= ?";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, gNo);
-			pstmt.setInt(2, oNo);
-			pstmt.executeQuery();		
-						
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}	
-	}
-	
-	public void delete(Long no, Long userNo) {
-		Connection connection = null;		
-		PreparedStatement pstmt = null;
-		try {
-			connection = getConnection();
-
-			String sql = "update board set removed = true where no = ? and user_no = ?";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.setLong(1, no);
-			pstmt.setLong(2, userNo);
-			pstmt.executeQuery();		
-						
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-	}
+	public void updateOno(int gNo, int oNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("gNo", gNo);
+		map.put("oNo", oNo);
+		sqlSession.update("board.updateOno", map);
+	}	
 	
 	public BoardVo getView(Long no) {
-		BoardVo result = null;
-		Connection connection = null;		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			connection = getConnection();
-
-			String sql = "select title, contents, user_no, hit"								
-								+ " from board"
-								+ " where no = ?";
-			pstmt = connection.prepareStatement(sql);		
-			pstmt.setLong(1, no);
-			rs = pstmt.executeQuery();		
-			
-			if(rs.next()) {
-				result = new BoardVo();				
-				result.setTitle(rs.getString(1));
-				result.setContents(rs.getString(2));
-				result.setUserNo(rs.getLong(3));		
-				result.setHit(rs.getInt(4));
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return result;
+		return sqlSession.selectOne("board.getView", no);
 	}
+	
+	public BoardVo getGroup(Long no) {
+		return sqlSession.selectOne("board.getGroup", no);
+	}
+		
+	public void delete(Long no, Long userNo) {
+		Map<String, Long> map = new HashMap<String, Long>();
+		map.put("no", no);
+		map.put("userNo", userNo);
+		sqlSession.update("board.delete", map);		
+	}
+	
+	
 	
 	public void updateHit(Long no, int hit) {
 		Connection connection = null;		
@@ -181,47 +106,6 @@ public class BoardDao {
 		}	
 	}
 	
-	public BoardVo getGroup(Long no) {
-		BoardVo result = null;
-		Connection connection = null;		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			connection = getConnection();
-
-			String sql = "select g_no, o_no, depth"								
-								+ " from board"
-								+ " where no = ?";
-			pstmt = connection.prepareStatement(sql);		
-			pstmt.setLong(1, no);
-			rs = pstmt.executeQuery();		
-			
-			if(rs.next()) {
-				result = new BoardVo();				
-				result.setGroupNo(rs.getInt(1));
-				result.setOrderNo(rs.getInt(2));
-				result.setDepth(rs.getInt(3));
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return result;
-	}
 	
 	public int countGroup(int gNo) {
 		Connection connection = null;		

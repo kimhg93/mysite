@@ -8,15 +8,36 @@ public class BoardVo {
 	private String contents;
 	private int hit;
 	private String regDate;
-	private int groupNo;
-	private int orderNo;
+	private int gNo;
+	private int oNo;
 	private int depth;
 	private int page;
 	private String keyWord;
 	private boolean removed;
 	private String move;
+	private int flag;
 	
 	
+	
+
+	public int getgNo() {
+		return gNo;
+	}
+	public void setgNo(int gNo) {
+		this.gNo = gNo;
+	}
+	public int getoNo() {
+		return oNo;
+	}
+	public void setoNo(int oNo) {
+		this.oNo = oNo;
+	}
+	public int getFlag() {
+		return flag;
+	}
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
 	public String getMove() {
 		return move;
 	}
@@ -83,18 +104,6 @@ public class BoardVo {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public int getGroupNo() {
-		return groupNo;
-	}
-	public void setGroupNo(int groupNo) {
-		this.groupNo = groupNo;
-	}
-	public int getOrderNo() {
-		return orderNo;
-	}
-	public void setOrderNo(int orderNo) {
-		this.orderNo = orderNo;
-	}
 	public int getDepth() {
 		return depth;
 	}
@@ -105,8 +114,9 @@ public class BoardVo {
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", userNo=" + userNo + ", userName=" + userName + ", title=" + title
-				+ ", contents=" + contents + ", hit=" + hit + ", regDate=" + regDate + ", groupNo=" + groupNo
-				+ ", orderNo=" + orderNo + ", depth=" + depth + "]";
-	}	
+				+ ", contents=" + contents + ", hit=" + hit + ", regDate=" + regDate + ", gNo=" + gNo + ", oNo=" + oNo
+				+ ", depth=" + depth + ", page=" + page + ", keyWord=" + keyWord + ", removed=" + removed + ", move="
+				+ move + ", flag=" + flag + "]";
+	}
 	
 }

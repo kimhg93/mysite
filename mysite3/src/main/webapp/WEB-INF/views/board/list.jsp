@@ -13,9 +13,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${path }/board/list" method="get">
-					<input type="hidden" name="page" value="1">
-					<input type="text" id="kwd" name="keyWord" value="">
+				<form id="search_form" action="${path }/board?a=list&page=1" method="post">
+					<input type="text" id="keyWord" name="keyWord" value="">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -35,8 +34,8 @@
 								<img src="${path }/assets/images/reply.png"/>
 							</c:if>							
 							<c:choose>
-								<c:when test="${vo.removed==false}">
-									<a href="${path }/board/view?no=${vo.no }&kwd=${param.keyWord }&page=${param.page }">${vo.title }</a>							
+								<c:when test="${vo.removed==false}">			
+									<a href="${path }/board/view?no=${vo.no }&keyWord=${param.keyWord }&page=${currentPage }">${vo.title }</a>							
 								</c:when>								
 								<c:when test="${vo.removed==true}">								
 									<span>삭제된 글</span>	
@@ -46,7 +45,7 @@
 						<td>${vo.userName }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.regDate }</td>
-						<td><a href="${path }/board/delete?no=${vo.no }&uno=${vo.userNo}" class="del">삭제</a></td>
+						<td><a href="${path }/board/delete?no=${vo.no }&userNo=${vo.userNo}" class="del">삭제</a></td>
 					</tr>
 					</c:forEach>	
 				</table>
@@ -55,7 +54,7 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${param.page-5>=1 }">
-							<li><a href="${path }/board/list?page=${startPage-1}&move=prev&kwd=${param.kwd}">◀</a></li>
+							<li><a href="${path }/board/list?page=${startPage-1}&move=prev&keyWord=${param.keyWord}">◀</a></li>
 						</c:if>						
 						<c:forEach begin="${startPage }" end="${lastPage }" step="1" var="i">
 							<c:choose>
@@ -63,12 +62,12 @@
 									<li><span style="font-size:16px">${i }</span></li>
 								</c:when>	
 								<c:otherwise>
-									<li><a href="${path }/boardlist?page=${i }&kwd=${param.kwd}">${i }</a></li>
+									<li><a href="${path }/board/list?page=${i }&keyWord=${param.keyWord}">${i }</a></li>
 								</c:otherwise>
 							</c:choose>								
 						</c:forEach>
 						<c:if test="${pageAll >= startPage+5 }">
-							<li><a href="${path }/board/list?page=${lastPage+1 }&move=next&kwd=${param.kwd}">▶</a></li>
+							<li><a href="${path }/board/list?page=${lastPage+1 }&move=next&keyWord=${param.keyWord}">▶</a></li>
 						</c:if>
 						
 					</ul>
@@ -76,7 +75,9 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<a href="${path }/board/write" id="new-book">글쓰기</a>
+					<c:if test="${authUser.no!=null}">
+						<a href="${path }/board/write" id="new-book">글쓰기</a>
+					</c:if>
 				</div>				
 			</div>
 		</div>

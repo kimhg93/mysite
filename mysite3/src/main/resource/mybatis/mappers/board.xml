@@ -8,13 +8,13 @@
 	<insert id="insert" parameterType="boardvo">
 		<![CDATA[
 			insert into board 
-				values(null, #{title }, #{contents }, 0, now(), #{groupNo }, #{orderNo }, #{depth }, #{userNo }, #{removed })
+				values(null, #{title }, #{contents }, 0, now(), #{gNo }, #{oNo }, #{depth }, #{userNo }, #{removed })
 		]]>
 	</insert>
 	
 	<select id="getGno" resultType="int">
 		<![CDATA[
-			select max(g_no) from board
+			select max(g_no) as gNo from board
 		]]>
 	</select>
 	
@@ -27,11 +27,11 @@
 	<select id="getList" parameterType="map" resultType="boardvo">
 		<![CDATA[
 			select b.title, a.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %H:%i:%s') as regDate,
-				   b.no, b.user_no, b.depth, b.g_no, b.removed			
+				   b.no, b.user_no, b.depth, b.g_no as gNo, b.removed			
 			  from user a, board b
 			 where a.no = b.user_no 								
 		]]>					
-			<if test="keyWord != null">
+			<if test="keyWord!=null">
 			<![CDATA[
 				 and (title like #{keyWord } or contents like #{keyWord })
 			]]>
@@ -48,4 +48,27 @@
 			limit #{page }, #{showCont }
 		]]>
 	</select>
+	<update id="updateOno" parameterType="map">
+		<![CDATA[
+			update board set o_no=o_no+1 where g_no = #{gNo} and o_no >= #{oNo}		
+		]]>
+	</update>
+	<select id="getGroup" parameterType="Long" resultType="boardvo">
+		<![CDATA[
+			select g_no as gNo, o_no as oNo, depth from board where no = #{no}
+		]]>	
+	</select>
+	<select id="getView" parameterType="Long" resultType="boardvo">
+		<![CDATA[
+			select title, contents, user_no as userNo, hit from board where no = #{no}
+		]]>
+	</select>
+	<update id="delete" paramterType="map">
+		<![CDATA[
+			update board set removed = true where no = #{no} and user_no = #{userNo}
+		]]>	
+	</update>
+	
+	
+	
 </mapper>
