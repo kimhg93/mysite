@@ -13,8 +13,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${path }/board?a=list&page=1" method="post">
+				<form id="search_form" action="${path }/board/list?page=1" method="get">
 					<input type="text" id="keyWord" name="keyWord" value="">
+					<input type="hidden" name="page" value="1">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">

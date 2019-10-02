@@ -70,6 +70,7 @@ public class BoardController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("lastPage", lastPage);
 		
+		System.out.println(countAll - (currentPage - 1) * SHOW_CNT);
 		List<BoardVo> list  = boardService.getList(currentPage, SHOW_CNT, keyWord);		
 		model.addAttribute("list", list);			
 		return "board/list";
@@ -125,9 +126,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="delete", method=RequestMethod.GET)
-	public String delete(BoardVo vo) {
-		boardService.delete(vo.getNo(), vo.getUserNo());	
-		return "";
+	public String delete(BoardVo vo, HttpSession session) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		boardService.delete(vo.getNo(), authUser.getNo());	
+		return "redirect:/board/list";
 	}
 	
 	@RequestMapping(value="/reply", method=RequestMethod.POST)

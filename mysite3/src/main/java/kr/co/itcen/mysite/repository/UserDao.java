@@ -14,11 +14,9 @@ import kr.co.itcen.mysite.vo.UserVo;
 public class UserDao {
 	@Autowired
 	private SqlSession sqlSession;
-
-	
+		
 	public Boolean insert(UserVo vo) throws UserDaoException {
 		int count = sqlSession.insert("user.insert", vo);
-		System.out.println(vo);
 		return count == 1;
 	}
 	
@@ -27,10 +25,13 @@ public class UserDao {
 		return count == 1;
 	}	
 	
-	public UserVo get(UserVo vo) {
-		UserVo result = sqlSession.selectOne("user.getByEmailAndPassword", vo);
-		return result;
+	public UserVo get(UserVo vo) { 
+		return sqlSession.selectOne("user.getByEmailAndPassword", vo);
 	}		
+	
+	public UserVo get(String email) {
+		return sqlSession.selectOne("user.getByEmail", email);
+	}
 	
 	public UserVo get(String email, String password) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -41,7 +42,6 @@ public class UserDao {
 	}	
 	
 	public UserVo get(Long no) {
-		return sqlSession.selectOne("user.getByNo", no);
-	}
+		return sqlSession.selectOne("user.getByNo", no);	}
 		
 }
