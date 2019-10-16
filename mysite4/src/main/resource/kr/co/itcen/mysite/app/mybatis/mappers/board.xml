@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+			insert into board 
+				values(null, #{title }, #{contents }, 0, now(), #{gNo }, #{oNo }, #{depth }, #{userNo }, #{removed })
+		]]>
+	</insert>
+	
+	<select id="getGno" resultType="int">
+		<![CDATA[
+			select max(g_no) as gNo from board
+		]]>
+	</select>
+	
+	<update id="modify" parameterType="boardvo">
+		<![CDATA[
+			update board set title=#{title }, contents=#{contents } where no=#{no }			
+		]]>
+	</update>
+	
+	<select id="getList" parameterType="map" resultType="boardvo">
+		<![CDATA[
+			select b.title, a.name as userName, b.hit, date_format(b.reg_date, '%Y-%m-%d %H:%i:%s') as regDate,
+				   b.no, b.user_no, b.depth, b.g_no as gNo, b.removed			
+			  from user a, board b
+			 where a.no = b.user_no 								
+		]]>					
+			<if test="keyWord2!=null">
+			<![CDATA[
+				 and (title like #{keyWord } or contents like #{keyWord })
+			]]>
+			</if>								
+		<![CDATA[					
+			and removed=false or (removed = true and ((b.o_no = (select max(o_no) o_no
+			from board where g_no=b.g_no and depth=b.depth) and (select (select count(*)
+			from board where g_no = b.g_no and o_no > b.o_no and depth > b.depth and removed = false)>0)
+			or ((select count(*) from board where g_no = b.g_no and o_no > b.o_no
+			and depth > b.depth and o_no < (select o_no from board where g_no = b.g_no and o_no > b.o_no
+			and depth = b.depth order by o_no asc limit 0, 1) and removed = false)>0))))
+			group by b.no
+			order by b.g_no desc, o_no asc
+			limit #{page }, #{showCont }
+		]]>
+	</select>
+	<update id="updateOno" parameterType="map">
+		<![CDATA[
+			update board set o_no=o_no+1 where g_no = #{gNo} and o_no >= #{oNo}		
+		]]>
+	</update>
+	<select id="getGroup" parameterType="Long" resultType="boardvo">
+		<![CDATA[
+			select g_no as gNo, o_no as oNo, depth from board where no = #{no}
+		]]>	
+	</select>
+	<select id="getView" parameterType="Long" resultType="boardvo">
+		<![CDATA[
+			select title, contents, user_no as userNo, hit from board where no = #{no}
+		]]>
+	</select>
+	<update id="delete" parameterType="map">
+		<![CDATA[
+			update board set removed = true where no = #{no} and user_no = #{userNo}
+		]]>	
+	</update>
+	<update id="updateHit" parameterType="map">
+		<![CDATA[
+			update board set hit=#{hit } where no=#{no }		
+		]]>
+	</update>
+	<select id="countAll" resultType="int">
+		<![CDATA[
+			select count(*) from board b where removed=false or (removed = true and ((b.o_no = (select max(o_no) o_no
+					 from board where g_no=b.g_no and depth=b.depth) and (select (select count(*)
+					 from board where g_no = b.g_no and o_no > b.o_no and depth > b.depth and removed = false)>0)
+					 or ((select count(*) from board where g_no = b.g_no and o_no > b.o_no
+					 and depth > b.depth and o_no < (select o_no from board where g_no = b.g_no and o_no > b.o_no
+					 and depth = b.depth order by o_no asc limit 0, 1) and removed = false)>0))))
+		]]>	
+	</select>
+	<select id="countAll2" parameterType="string" resultType="int">
+		<![CDATA[
+			select count(*) from board b where (title like #{keyWord } or contents like #{keyWord }) and 
+			removed=false or (removed = true and ((b.o_no = (select max(o_no) o_no
+			from board where g_no=b.g_no and depth=b.depth) and (select (select count(*)
+			from board where g_no = b.g_no and o_no > b.o_no and depth > b.depth and removed = false)>0)
+			or ((select count(*) from board where g_no = b.g_no and o_no > b.o_no
+			and depth > b.depth and o_no < (select o_no from board where g_no = b.g_no and o_no > b.o_no
+			and depth = b.depth order by o_no asc limit 0, 1) and removed = false)>0))))
+		]]>
+	</select>
+	
+</mapper>

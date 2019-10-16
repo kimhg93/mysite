@@ -16,9 +16,7 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:annotation-config />
-	<context:component-scan base-package="kr.co.itcen.mysite.controller, kr.co.itcen.mysite.exception" />
-	<aop:aspectj-autoproxy/>
+
 	
 	
 	<mvc:annotation-driven>
@@ -39,7 +37,6 @@
 			</bean>						
 		</mvc:message-converters>				
 	</mvc:annotation-driven>	
-	<mvc:default-servlet-handler/>
 	
 	<mvc:interceptors>
 		<!-- <mvc:interceptor>
