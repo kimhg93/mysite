@@ -1,7 +1,5 @@
 package kr.co.itcen.mysite.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -9,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,18 +47,7 @@ public class UserController {
 	public String login() {
 		return "user/login";
 	}
-	
-	
-//	@RequestMapping(value="/logout", method=RequestMethod.GET)
-//	public String logout(HttpSession session) {
-//		//접근제어(ACL)
-//		UserVo authUser = (UserVo)session.getAttribute("authUser");
-//		if(authUser!=null) {
-//			session.removeAttribute("authUser");
-//			session.invalidate();
-//		}	
-//		return "redirect:/";
-//	}
+
 	
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(HttpSession session, Model model) {
@@ -79,9 +65,13 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-//	@ExceptionHandler(UserDaoException.class)
-//	public String handlerException() {
-//		return "error/exception";
-//	}
+	@RequestMapping(value="/auth", method=RequestMethod.POST)
+	public void auth() {
+		
+	}
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public void logout() {
+		
+	}
 	
 }

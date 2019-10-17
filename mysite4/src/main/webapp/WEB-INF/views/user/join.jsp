@@ -69,19 +69,20 @@
 					<label class="block-label" for="name">이름</label>
 					<form:input path="name" />
 					<spring:hasBindErrors name="userVo">
-						<c:if test="${errors.hasFieldErrors('name') }">
-						<p>
-							<spring:message code="${errors.getFieldError('name').codes[0] }" text="${errors.getFieldError( 'name' ).defaultMessage }" />	
-							<spring:message code="${errors.getFieldError('name').codes[1] }" text="${errors.getFieldError( 'name' ).defaultMessage }" />
-						</p>							
+						<c:if test='${errors.hasFieldErrors("name") }'>
+							<p style="font-weight:bold; color:red; text-align:left; padding-left:0">
+								<spring:message code='${errors.getFieldError("name").codes[0] }' text='${errors.getFieldError("name").defaultMessage }' />
+							</p>
 						</c:if>
 					</spring:hasBindErrors>
+					
 					<label class="block-label" for="email">이메일</label>
 					<form:input path="email" />
-					<form:errors path="email" />
-					
-					<img id="img-check" src="${path }/assets/images/check.png" style="width:15px;display:none">
-					<input type="button" id="btn-check-email" value="이메일 확인">
+					<input id="btn-check-email" type="button" value="중복확인">
+					<img id="img-checked" style='width:20px; display:none' src='${pageContext.servletContext.contextPath }/assets/images/check.png'/>
+					<p style="font-weight:bold; color:red; text-align:left; padding:2px 0 0 0">
+						<form:errors path="email" />
+					</p>	
 					
 					<label class="block-label">패스워드</label>
 					<form:input path="password"/>

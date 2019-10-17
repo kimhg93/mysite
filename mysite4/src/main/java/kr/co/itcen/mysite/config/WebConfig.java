@@ -6,11 +6,13 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 import kr.co.itcen.config.web.MVCConfig;
+import kr.co.itcen.config.web.MessageConfig;
+import kr.co.itcen.config.web.SecurityConfig;
 
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan({"kr.co.itcen.mysite.controller","kr.co.itcen.mysite.exception"})
-@Import({MVCConfig.class})
+@Import({MVCConfig.class, SecurityConfig.class, MessageConfig.class})
 public class WebConfig {
 
 }
