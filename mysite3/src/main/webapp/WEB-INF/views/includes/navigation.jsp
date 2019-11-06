@@ -5,6 +5,7 @@
 			<ul>
 				<li><a href="${path }">메인</a></li>
 				<li><a href="${path }/guestbook">방명록</a></li>
+				<li><a href="${path }/guestbook/spa">방명록(SPA)</a></li>
 				<li><a href="${path }/board">게시판</a></li>
 			</ul>
 		</div>
