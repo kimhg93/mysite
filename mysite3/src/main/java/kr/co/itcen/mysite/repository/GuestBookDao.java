@@ -16,8 +16,8 @@ public class GuestBookDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public void insert(GuestBookVo vo) {
-		sqlSession.insert("guestbook.insert", vo);
+	public int insert(GuestBookVo vo) {
+		return sqlSession.insert("guestbook.insert", vo);
 	}
 
 	public void delete(GuestBookVo vo) {

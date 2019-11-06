@@ -26,25 +26,26 @@
 
             $.ajax({
             	url: "/mysite3/api/guestbook/add",
-    			type: "post",
-    			contentType: 'application/json', // 보내는 데이터의 타입: post방식 json
-    			dataType: 'json',  
+    			type: "POST",
+    			contentType: "application/json", // 보내는 데이터의 타입: post방식 json
+    			dataType: "json",  
                 data: JSON.stringify(vo),
                 success: function(response){
-                    if(response.result != "success"){
-                    	console.log(response.error())
-                    }
-                    var html = 
-                        "<li data-no='"+response.no+"'>"+
-						"<strong>"+response.name+"지나가다가""</strong>"+
-						"<p>"+response.contents+"</p>"+						
-						"<strong></strong>"+
-						"<a href='' data-no='"+response.no+"'>삭제</a>"+
-					    "</li>";
-                    $("#list-guestbook").prepend(html);
-                    
-                    
-                },
+                	if(response.result != "success"){
+    					console.error(response.message);
+    					return;
+    				}
+    				
+    				var html = 
+    					"<li data-no='" + response.data.no + "'>" +
+    					"<strong>"+ response.data.name +"</strong>" +
+    					"<p>"+ response.data.contents + "</p>" +
+    					"<strong></strong>" +
+    					"<a href='' data-no='" + response.data.no + "'>삭제</a>" + 
+    					"</li>";
+    				$("#list-guestbook").prepend(html);
+    				$("#add-form")[0].reset();
+    			},
                 error: function(xhr, status, e){
                     console.error(status + " : " + e);
                 }
@@ -59,7 +60,7 @@
 		<div id="content">
 			<div id="guestbook">
 				<h1>방명록</h1>
-				<form id="add-form" action="" method="post">
+				<form id="add-form" action="">
 					<input type="text" id="input-name" placeholder="이름">
 					<input type="password" id="input-password" placeholder="비밀번호">
 					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
