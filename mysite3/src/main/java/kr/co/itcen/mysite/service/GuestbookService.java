@@ -16,7 +16,11 @@ public class GuestbookService {
 	public List<GuestBookVo> getList() {
 		return guestbookDao.getList();
 	}
-
+	
+	public List<GuestBookVo> getList(Long startNo) {
+		return guestbookDao.getList(startNo);
+	}
+	
 	public boolean insert(GuestBookVo vo) {
 		int cnt = guestbookDao.insert(vo);
 		return cnt==1;
@@ -24,5 +28,9 @@ public class GuestbookService {
 
 	public void delete(GuestBookVo vo) {
 		guestbookDao.delete(vo);		
+	}
+	
+	public boolean delete(Long no, String password) {
+		return 1 == guestbookDao.delete(no, password);		
 	}
 }

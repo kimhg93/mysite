@@ -26,7 +26,7 @@
 		]]>
 		<if test="_parameter > 0">
 			<![CDATA[
-				 where no > #{_parameter }
+				 where no < #{_parameter }
 			]]>
 		</if>
 		<![CDATA[			

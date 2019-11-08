@@ -20,12 +20,24 @@ public class GuestBookDao {
 		return sqlSession.insert("guestbook.insert", vo);
 	}
 
-	public void delete(GuestBookVo vo) {
-		sqlSession.delete("guestbook.delete", vo);
+	public int delete(GuestBookVo vo) {
+		return sqlSession.delete("guestbook.delete", vo);
 	}	
+	
+	public int delete(Long no, String password) {
+		GuestBookVo vo = new GuestBookVo();
+		vo.setNo(no);
+		vo.setPassword(password);		
+		return this.delete(vo);
+	}
 
 	public List<GuestBookVo> getList() {
 		List<GuestBookVo> result = sqlSession.selectList("guestbook.getList");
+		return result;
+	}
+	
+	public List<GuestBookVo> getList(Long startNo) {
+		List<GuestBookVo> result = sqlSession.selectList("guestbook.getList2", startNo);
 		return result;
 	}
 }
